@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-NPDN HTS Bioinformatics Training 2023
+NPDN HTS Bioinformatics Training 2024
 =====================================
 
 .. toctree::
@@ -11,13 +11,6 @@ NPDN HTS Bioinformatics Training 2023
    :caption: Contents:
 
    intro
-   seqqc
-   mappingassembly
-   2gvirus
-   3gvirus
-   2Gmetabarcode
-   3Gmetabarcode
-   3gvirusexp
    help
 
 
