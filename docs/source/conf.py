@@ -64,7 +64,7 @@ html_static_path = ['_static']
 #sys.path.append(os.path.abspath('/path/to/sphinxcontrib.slide'))
 
 # Enabled extensions
-extensions = ['sphinxcontrib.slide']
+extensions = ['sphinx_rtd_theme','sphinxcontrib.slide']
 
 def setup(app):
     app.add_css_file('custom.css')
