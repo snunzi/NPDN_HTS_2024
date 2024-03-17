@@ -1,2 +1,3 @@
  https://github.com/TYPO3-Documentation/sphinx-contrib-slide/archive/t3v1.0.1.tar.gz
  six
+ sphinx-rtd-theme
