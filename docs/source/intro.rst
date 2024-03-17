@@ -4,7 +4,7 @@ Intro to HTS
 Lecture
 ^^^^^^^
 
-.. slide:: https://docs.google.com/presentation/d/11DQD3VRQdJRpxs9mDrPgvFln5LEa2GBZ/edit?usp=sharing&ouid=109171409847370329260&rtpof=true&sd=true
+.. slide:: https://docs.google.com/presentation/d/11DQD3VRQdJRpxs9mDrPgvFln5LEa2GBZ
 
 Introduction
 ^^^^^^^^^^^^

@@ -11,6 +11,8 @@ NPDN HTS Bioinformatics Training 2024
    :caption: Contents:
 
    intro
+   introanalysis
+   introgalaxy
    help
 
 
