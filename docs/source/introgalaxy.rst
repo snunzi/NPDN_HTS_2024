@@ -14,11 +14,6 @@ In this practical you will learn to import and assess the quality of raw high th
 Here, we will perform virus discovery on a Tomato leaf sample. The dataset was generated using the SQK-PCS108 cDNA PCR kit (Oxford Nanopore Technologies) and sequenced in a MinION Mk1B device (MIN-101B).
 
 
-Pipeline Picture
-^^^^^^^^^^^^^^^^^^
-
-		.. image:: _static/3gviruspipeline.png
-
 Login to Galaxy
 ^^^^^^^^^^^^^^^
 We will be using Galaxy for performing many of our bioinformatic analyses. This is a great free tool for performing bioinformatics, no coding necessary! There are lots of tutorials available online, both on how to use Galaxy and perform specific analysis. See training materials at link below on your own time.
@@ -86,7 +81,7 @@ The first step in any sequencing analysis is quality check and trimming. These s
 
 		* Leave the rest as default.
 
-	3. Click Execute.
+	3. Click Run Tool.
 
 
 Nanoplot should produce four output files. Let's take a look at the html output report.
@@ -167,7 +162,7 @@ Galaxy makes this very easy with the Extract workflow option. This means any tim
 
     3. Replace the Workflow name to something more descriptive, for example: ``MinION Read QC``
 
-    4. Rename the workflow input in the box at the top of second column to: ``Read1`` and ``Read2``
+    4. Rename the workflow input in the box at the top of second column to: ``Reads``
 
     5. Click on the Create Workflow button near the top.
 
@@ -205,13 +200,13 @@ Here we will import the full run from the reads we ab from NCBIs SRA database.
 
         * fasterq-dump log; Contains information about the tool execution
 
-Once fasterq finishes transferring the data explore the collections created by clicking on the collection name in the history panel. You should see in the paired-end data collection there is a pair of reads. This is what we will be analyzing. You can delete the other 3 empty collections.
+Once fasterq finishes transferring the data explore the collections created by clicking on the collection name in the history panel. You should see in the single-end data collection there is a dataset of reads. This is what we will be analyzing. You can delete the other 3 empty collections.
 
 
 
 Run a Workflow
 ^^^^^^^^^^^^^^^
-Lets run our quality control pipeline on our newly downloaded and subsetted dataset.
+Lets run our quality control pipeline on our newly downloaded dataset.
 
 .. admonition:: Hands-On: Run A Workflow
 
@@ -223,7 +218,7 @@ Lets run our quality control pipeline on our newly downloaded and subsetted data
 
     .. image:: _static/selectworkflow2.png
 
-    3. Click on the Browse datasets icon on the right of each input box. For Read1 input select the ``Raw Read 1`` file, and for Read2 input choose ``Raw Read 2``.
+    3. Click on the Browse datasets icon on the right of each input box. For Reads input select the read file you just downloaded.
 
     4. Select Run Workflow.
 
