@@ -9,7 +9,7 @@ Here, we will analyze the data you generated over the past two days. You should 
 
 Import Data
 ^^^^^^^^^^^
-Lets import data from a shared history. These are your raw reads. The only thing that has been done is the multiple read files have been concatenated into a single file for analysis. There is also a database of plant viruses.
+Lets import data from a shared history. These are your raw reads. The only thing that has been done is the multiple read files have been concatenated into a single file for analysis. There is also a database of plant viruses, and your two host genomes.
 
 .. admonition:: Hands-On: Import Viral Metagenomic Reads
 
@@ -17,11 +17,11 @@ Lets import data from a shared history. These are your raw reads. The only thing
 
     2. In the search field, search for ``NPDN HTS2 2024``
 
-    3. Find the history for ``NPDN HTS2 2024 Data 3G Virus `` Select the green plus sign to import into your Galaxy environment.
+    3. Find the history for ``NPDN HTS2 2024 Data 3G Virus `` Select the button at the top to import into your Galaxy environment.
 
-    4. After uploading the shared history you can delete barcodes that are not yours and rename your sequences to identify what they are, i.e. 'meta_tomato.fastq.gz' and 'meta_orange.fastq.gz'.
+    4. After uploading the shared history you can delete barcodes that are not yours and rename your sequences to identify what they are, i.e. 'tomato_metagenome.fastq.gz' and 'orange_metagenome.fastq.gz'.
 
-    5. You should now have 2 sequencing files (fastq.gz) and a virus database (nt_vrl_plant_pathoscope_95.fasta) in your history.
+    5. You should now have 2 sequencing files (fastq.gz), two host genomes (orange and tomato), and a virus database (nt_vrl_plant_pathoscope_95.fasta) in your history.
 
 
 
@@ -36,37 +36,23 @@ The first step in any sequencing analysis is quality check and trimming. These s
 
     2. Run Nanoplot tool with the following parameters
 
-    * “files”: ``virus_3g.fastq.gz``
+    * files: Select "Multiple Datasets" optin
+
+    * “files”: ``tomato_metagenome.fastq.gz`` and ``citrus_metagenome.fastq.gz``
 
     * Leave the rest as default.
 
-    3. Click Execute.
+    3. Click Run Tool.
 
 
-Nanoplot should produce four output files. Let's take a look at the html output report.
+Nanoplot should produce four output files. Let's take a look at the html output report. Fill in your handout with QC information and select your read length cutoff for filtering.
 
 
 Quality Filtering
 ^^^^^^^^^^^^^^^^^^^
-Let's filter the data to remove adapters, chimeric reads, and low quality bases. First we will filter to retain only high-quality long reads. Quality filtering is a balancing act to retain enough high-quality reads for analysis. Here, we will set a minimum length for reads to maintain. We will also only keep the top 90% of high quality reads.
+Let's filter the data to remove short reads and low quality bases. First we will filter to retain only high-quality long reads. Quality filtering is a balancing act to retain enough high-quality reads for analysis. Here, we will set a minimum length for reads to maintain. We will also only keep the top 90% of high quality reads.
 
 
-
-.. admonition:: Hands-On: Adapter Trimming
-
-    1. In tools menu, search for 'porechop' and click on it.
-
-    2. Run porechop tool with the following parameters
-
-      * Input Fastq: ``meta_X.fastq.gz``
-
-      * Output Format for the Reads: ``fastq.gz``
-
-      * Leave the rest as default.
-
-    3. Click Execute.
-
-Porechop should produce a new fastq file with adapter and chimeric reads removed. Let's now filter by quality.
 
 .. admonition:: Hands-On: Quality Filtering
 
@@ -78,13 +64,15 @@ Porechop should produce a new fastq file with adapter and chimeric reads removed
 
       * Output Theshholds:
 
-          - Keep Percentage: ``90``
+          - Min Mean Quality: ``10``
 
-          - Min Length: ``1000``
+          - Min Length: ``1000`` (Or cutoff you selected)
 
       * Leave the rest as default.
 
     3. Click Execute.
+
+    4. After filtering completes, run Nanoplot again to see how many reads remain and their distribution. Fill in handout with output.
 
 
 
@@ -93,21 +81,22 @@ Porechop should produce a new fastq file with adapter and chimeric reads removed
 Non-Host Read Extraction
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-We will now remove host reads from the dataset. We will use the arabidopsis genome because it is well studied, however you could also use a more specific genome (tomato and orange) from NCBI.
+We will now remove host reads from the dataset. We will use the two host genomes you imported from the shared history. These are the RefSeq genomes from tomato and orange. You will have to run the following two programs (minimap and samtools) separately for each sample because they are from different host genomes.
 
 .. admonition:: Hands-On: Remove Host Reads
 
     1. Run minimap2 with the following parameters:
 
-      * Will you select a reference genome from your history or use a built-in index? ``Use a built in genome index``
+      * Will you select a reference genome from your history or use a built-in index? ``Use a genome from history and build index``
 
-      * Using reference genome: ``Arabidopsis thaliana (TAIR10)``
+      * Use the following dataset as the reference sequence: choose either citrus or tomato (based on which sample)
 
       * Select fastq datasets: ``filtlong output``
 
-      * Leave rest as default press 'Execute'
+      * Leave rest as default press 'Run Tool'
 
 
+Now we have to extract only the reads that do not map to the host genome.
     2. Run samtools fastx
 
       * “BAM or SAM file to convert”: ``Map with minimap2``
@@ -118,7 +107,7 @@ We will now remove host reads from the dataset. We will use the arabidopsis geno
 
       * “Require that these flags are set”: ``Read is unmapped``
 
-      * Leave rest as default press 'Execute'
+      * Leave rest as default press 'Run Tool'
 
     3. When job completes, rename the output files to something more useful.
 
@@ -139,7 +128,7 @@ We will be mapping all reads to identify members in a mixed set of metagenomic r
 
       * Use the following dataset as the reference sequence:  ``nt_vrl_plant_pathoscope_95.fasta``
 
-      * Select fastq dataset: ``meta_X_nonhost.fastq.gz``
+      * Select fastq dataset: ``tomato_nonhost.fastq.gz`` and ``citrus_nonhost.fastq.gz``
 
     2. Run tool.
 
@@ -149,7 +138,7 @@ We will be mapping all reads to identify members in a mixed set of metagenomic r
 
     2. Run samtools idxstats with the following parameters:
 
-    * BAM file: ``Map with minimap...``
+    * BAM file: ``Map with minimap...`` (you can select both files--one for tomato and one for citrus)
 
     3. Run tool.
 
@@ -202,9 +191,8 @@ Next we will assemble all reads that did not map to host using an assembler for 
 
     2. Run this tool with following parameters:
 
-      * Input Reads: ``X_nonhost.fastq.gz``
+      * Input Reads: ``citrus_nonhost.fastq.gz`` and ``tomato_nonhost.fastq.gz``
 
-      * estimated genome size: 10k
 
       * Perform metagenomic assembly: ``Yes``
 
@@ -249,3 +237,28 @@ Let's Blast the contigs we generated. First we will build a blast database
   3. Run tool.
 
   4. Download results to computer and open in excel.
+
+  Coverage of Assemblies
+  ^^^^^^^^^^^^^^^^^^^^^^^
+
+  Let's look at the coverage of the assemblies.
+
+  .. admonition:: Hands-On: Turn Genome Assembly into a Database
+
+    1. Follow this tutorial to turn your genome assemblies into databases: https://training.galaxyproject.org/training-material/faqs/galaxy/analysis_add_custom_build.html
+
+    2. Next to Database in the assembly history panel, click the question mark and assign the database.
+
+      .. image:: _static/databasegalaxy.png
+
+    3. Search for the tool minimap2 and run with the following parameters;
+
+    * Will you select a reference genome from your history or use a built-in index?: ``Use a genome from history and build index``
+
+    * Use the following dataset as the reference sequence:  ``tomato assembly`` (or citrus)
+
+    * Select fastq dataset: ``tomato_nonhost.fastq.gz`` (or``citrus_nonhost.fastq.gz``)
+
+    3. Run tool.
+
+    4. When mapper completes select 'visualize' in the history panel.

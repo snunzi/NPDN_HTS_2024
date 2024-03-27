@@ -13,6 +13,7 @@ NPDN HTS Bioinformatics Training 2024
    intro
    introanalysis
    introgalaxy
+   3gvirusexp
    help
 
 
