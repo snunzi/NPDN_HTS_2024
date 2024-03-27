@@ -220,6 +220,8 @@ Let's Blast the contigs we generated. First we will build a blast database
 
   * Subject database/sequences: ``Blast database from your history``
 
+  * Output format: ``Tabular (Extended 25)``
+
   3. Run tool.
 
 
@@ -237,6 +239,7 @@ Let's Blast the contigs we generated. First we will build a blast database
   3. Run tool.
 
   4. Download results to computer and open in excel.
+
 
   Coverage of Assemblies
   ^^^^^^^^^^^^^^^^^^^^^^^
